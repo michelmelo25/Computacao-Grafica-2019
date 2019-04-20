@@ -1,9 +1,11 @@
 #include "casa.h"
 #include "porta.h"
+#include "janela_frontal.h"
 
 Casa::Casa()
 {
     porta = new Porta();
+    janela = new Janela_Frontal();
 }
 
 void Casa::desenha()
@@ -104,6 +106,7 @@ void Casa::desenha()
         glEnd();
         //Desenhando a porta
         porta->desenha();
+        janela->desenha();
     glPopMatrix();
 
 

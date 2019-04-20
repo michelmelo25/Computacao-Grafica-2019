@@ -22,7 +22,10 @@ SOURCES += \
     obj/casa.cpp \
     gui_glut/extra.cpp \
     gui_glut/gui.cpp \
-    obj/porta.cpp
+    obj/porta.cpp \
+    obj/janela_frontal.cpp \
+    obj/predio.cpp \
+    obj/janela_predio.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -36,4 +39,7 @@ HEADERS += \
     gui_glut/extra.h \
     gui_glut/gui.h \
     obj/porta.h \
-    obj/porta.h
+    obj/porta.h \
+    obj/janela_frontal.h \
+    obj/predio.h \
+    obj/janela_predio.h

@@ -3,6 +3,7 @@
 
 #include <objeto.h>
 #include <porta.h>
+#include <janela_frontal.h>
 
 class Casa : public Objeto
 {
@@ -12,6 +13,7 @@ public:
 
 private:
     Porta * porta;
+    Janela_Frontal * janela;
 };
 
 #endif // CASA_H
