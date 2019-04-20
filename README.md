@@ -1,6 +1,7 @@
 # Computacao-Grafica-2019
-
+<hr>
 # Trabalho 1
+<hr>
 ## Parte 1
 1. Implementar um modelador[6.0]
 	+ implementacao orientada a objeto (definir uma classe Objeto)[2.5]
