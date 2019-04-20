@@ -4,7 +4,7 @@
 
 ## Parte 1
 1. Implementar um modelador[6.0]
-	+ implementacao orientada a objeto (definir uma classe Objeto)[2.5]
+	1. implementacao orientada a objeto (definir uma classe Objeto)[2.5]
 		+ heranca[1.0]
 			+ a ser implementado por classes mais específicas (herdando da classe Objeto)
 		+ transformacoes[0.5]
@@ -16,7 +16,7 @@
 		+ sistema local de referencia[0.5]
 			+ incluir um atributo na classe Objeto para alternar entre desenhar ou não os eixos do sist local do objeto
 			+ usá-lo como teste no método desenhar
-	+ manipulacao do vetor de Objetos[1.5]
+	2. manipulacao do vetor de Objetos[1.5]
 		+ permitir incluir objetos nesse vetor (usando o teclado)[0.5]
 			+ permitir incluir objetos independentes, inclusive do mesmo tipo (mesma classe filha)
 				+ cada tipo de objeto deve ser associado a uma tecla diferente
