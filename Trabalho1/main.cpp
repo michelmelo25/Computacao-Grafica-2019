@@ -8,11 +8,10 @@ using namespace std;
 //Import dos objedos a serem desenhador (arquivos .h)
 #include <objeto.h>
 #include <casa.h>
-#include <porta.h>
+#include <porta_predio.h>
 #include <janela_predio.h>
 #include <predio.h>
 
-//Model3DS model3ds("../3ds/cartest.3DS");
 
 vector<Objeto*> objetos;
 int posSelecionado = -1;
@@ -104,7 +103,7 @@ void teclado(unsigned char key, int x, int y) {
         break;
     case 'j':
         if (incluirObjeto) {
-            objetos.push_back( new Janela_predio() );
+//            objetos.push_back( new Porta_predio() );
         }
         break;
     case 'c':

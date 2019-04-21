@@ -25,7 +25,8 @@ SOURCES += \
     obj/porta.cpp \
     obj/janela_frontal.cpp \
     obj/predio.cpp \
-    obj/janela_predio.cpp
+    obj/janela_predio.cpp \
+    obj/porta_predio.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -42,4 +43,5 @@ HEADERS += \
     obj/porta.h \
     obj/janela_frontal.h \
     obj/predio.h \
-    obj/janela_predio.h
+    obj/janela_predio.h \
+    obj/porta_predio.h

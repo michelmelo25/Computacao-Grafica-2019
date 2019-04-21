@@ -75,7 +75,6 @@ void Casa::desenha()
             glRotatef(-90,0,1,0);
             glRotatef(-45,1,0,0);
             glScalef(1,1.4,1);
-            //GUI::drawOrigin(0.5);
             glBegin(GL_POLYGON);
                 glNormal3f(0,0,1);
                 glVertex3f(0,0,0);
@@ -104,7 +103,7 @@ void Casa::desenha()
             glVertex3f(1,1,0);
             glVertex3f(0.5,1.5,0.5);
         glEnd();
-        //Desenhando a porta
+        //Desenhando a porta e janela
         porta->desenha();
         janela->desenha();
     glPopMatrix();
