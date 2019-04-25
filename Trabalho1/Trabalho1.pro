@@ -26,7 +26,9 @@ SOURCES += \
     obj/janela_frontal.cpp \
     obj/predio.cpp \
     obj/janela_predio.cpp \
-    obj/porta_predio.cpp
+    obj/porta_predio.cpp \
+    obj/asfalto.cpp \
+    obj/loja.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -44,4 +46,6 @@ HEADERS += \
     obj/janela_frontal.h \
     obj/predio.h \
     obj/janela_predio.h \
-    obj/porta_predio.h
+    obj/porta_predio.h \
+    obj/asfalto.h \
+    obj/loja.h

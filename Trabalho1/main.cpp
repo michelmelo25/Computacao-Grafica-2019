@@ -11,6 +11,7 @@ using namespace std;
 #include <porta_predio.h>
 #include <janela_predio.h>
 #include <predio.h>
+#include <asfalto.h>
 
 
 vector<Objeto*> objetos;
@@ -99,6 +100,11 @@ void teclado(unsigned char key, int x, int y) {
     case 'p':
         if (incluirObjeto) {
             objetos.push_back( new Predio() );
+        }
+        break;
+    case 'a':
+        if (incluirObjeto) {
+            objetos.push_back( new Asfalto() );
         }
         break;
     case 'j':
