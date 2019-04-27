@@ -8,10 +8,13 @@ using namespace std;
 //Import dos objedos a serem desenhador (arquivos .h)
 #include <objeto.h>
 #include <casa.h>
-#include <porta_predio.h>
-#include <janela_predio.h>
 #include <predio.h>
 #include <asfalto.h>
+#include <arvore.h>
+#include <loja.h>
+#include <ambulancia.h>
+#include <caminhao.h>
+#include <dirigivel.h>
 
 
 vector<Objeto*> objetos;
@@ -25,10 +28,9 @@ void desenha() {
     //GUI::setLight(3,-5,3,5,true,false);
 
     GUI::drawOrigin(1);
-
+    Desenha::drawGrid(10,0,7,1);
     GUI::setColor(1,0,0);
-    GUI::drawFloor();
-
+    GUI::drawFloor(20,14);
     for (int i = 0; i < objetos.size(); ++i) {
         glPushMatrix();
             objetos[i]->desenha();
@@ -67,7 +69,11 @@ void teclado(unsigned char key, int x, int y) {
         glutGUI::trans_obj = !glutGUI::trans_obj;
         break;
     case 'l':
-        glutGUI::trans_luz = !glutGUI::trans_luz;
+        if(!incluirObjeto){
+            glutGUI::trans_luz = !glutGUI::trans_luz;
+        }else{
+            objetos.push_back( new Loja() );
+        }
         break;
 
     case 'n':
@@ -99,22 +105,50 @@ void teclado(unsigned char key, int x, int y) {
         break;
     case 'p':
         if (incluirObjeto) {
-            objetos.push_back( new Predio() );
+            objetos.push_back( new Predio());
         }
         break;
-    case 'a':
+    case 'u':
         if (incluirObjeto) {
             objetos.push_back( new Asfalto() );
         }
         break;
-    case 'j':
+    case 'd':
+        if (!incluirObjeto) {
+            //Aqui apaga o obj selecionado
+            for (int i = 0; i < objetos.size(); ++i) {
+                if(objetos[i]->selecionado){
+                    objetos.erase(objetos.begin()+i);
+                }
+            }
+        }else{
+            objetos.push_back( new Dirigivel());
+        }
+        break;
+    case 'a':
         if (incluirObjeto) {
-//            objetos.push_back( new Porta_predio() );
+            objetos.push_back( new Ambulancia() );
+        }
+        break;
+    case 'A':
+        if (incluirObjeto) {
+            objetos.push_back( new Arvore() );
+        }
+        break;
+    case 'j':
+        //Por alguma razao, adicionar um obj com a letra j causa um bug, interacoes tornam-se diferente do esperado.
+        if (incluirObjeto) {
+//            objetos.push_back( new Loja() );
         }
         break;
     case 'c':
         if (incluirObjeto) {
-            objetos.push_back( new Casa() );
+            objetos.push_back( new Casa());
+        }
+        break;
+    case 'C':
+        if (incluirObjeto) {
+            objetos.push_back( new Caminhao());
         }
         break;
 
@@ -125,13 +159,21 @@ void teclado(unsigned char key, int x, int y) {
 
 int main()
 {
-    cout << "Hello World!" << endl;
+    cout << "Mapa do Teclado" << endl;
+    cout << "Comandos de inclusao de objs" << endl;
+    cout << "c - Casa" << endl;
+    cout << "C - Caminhao" << endl;
+    cout << "a - Ambulancia" << endl;
+    cout << "A - Arvore" << endl;
+    cout << "d - Dirigivel" << endl;
+    cout << "u - Asfalto" << endl;
+    cout << "p - Predio" << endl;
+    cout << "l - Loja" << endl;
+    cout << "Comandos com inclusao de obj desativada" << endl;
+    cout << "d - deleta objeto selecionado" << endl;
+    cout << "n - Seleciona obj seguinte" << endl;
+    cout << "b - seleciona obj a"
+            "nterior" << endl;
 
     GUI gui = GUI(800,600,desenha,teclado);
 }
-
-
-//while(true) {
-//    desenha();
-//    interacaoUsuario();
-//}

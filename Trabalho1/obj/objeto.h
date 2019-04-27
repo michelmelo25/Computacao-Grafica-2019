@@ -15,7 +15,7 @@ public:
     Model3DS* malha;
 public:
     Objeto();
-    virtual void desenha();;
+    virtual void desenha();
 };
 
 #endif // OBJETO_H

@@ -1,7 +1,6 @@
 #ifndef JANELA_FRONTAL_H
 #define JANELA_FRONTAL_H
 #include <objeto.h>
-#include <Desenha.h>
 
 class Janela_Frontal: public Objeto{
 public:

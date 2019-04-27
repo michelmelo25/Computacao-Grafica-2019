@@ -1,7 +1,6 @@
 #ifndef JANELA_PREDIO_H
 #define JANELA_PREDIO_H
 #include <objeto.h>
-#include <Desenha.h>
 
 class Janela_predio: public Objeto
 {

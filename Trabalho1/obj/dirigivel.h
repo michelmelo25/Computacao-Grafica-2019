@@ -1,11 +1,12 @@
-#ifndef DIRIGINEL_H
-#define DIRIGINEL_H
+#ifndef DIRIGIVEL_H
+#define DIRIGIVEL_H
+#include <objeto.h>
 
-
-class Diriginel
+class Dirigivel: public Objeto
 {
 public:
-    Diriginel();
+    Dirigivel();
+    void desenha();
 };
 
-#endif // DIRIGINEL_H
+#endif // DIRIGIVEL_H

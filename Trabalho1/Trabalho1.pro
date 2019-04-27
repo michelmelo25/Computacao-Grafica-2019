@@ -28,7 +28,12 @@ SOURCES += \
     obj/janela_predio.cpp \
     obj/porta_predio.cpp \
     obj/asfalto.cpp \
-    obj/loja.cpp
+    obj/loja.cpp \
+    obj/arvore.cpp \
+    obj/porta_loja.cpp \
+    obj/ambulancia.cpp \
+    obj/caminhao.cpp \
+    obj/dirigivel.cpp
 
 HEADERS += \
     bib/Camera.h \
@@ -48,4 +53,9 @@ HEADERS += \
     obj/janela_predio.h \
     obj/porta_predio.h \
     obj/asfalto.h \
-    obj/loja.h
+    obj/loja.h \
+    obj/arvore.h \
+    obj/porta_loja.h \
+    obj/ambulancia.h \
+    obj/caminhao.h \
+    obj/dirigivel.h
