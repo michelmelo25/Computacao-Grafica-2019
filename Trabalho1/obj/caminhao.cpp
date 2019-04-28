@@ -3,6 +3,7 @@
 Caminhao::Caminhao()
 {
    malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Truck  freightliner N200314.3DS");
+   nome = "Caminhao";
 }
 
 void Caminhao::desenha(){

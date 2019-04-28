@@ -4,6 +4,7 @@
 Arvore::Arvore()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Tree Ficus Carica N280518.3ds");
+    nome = "Arvore";
 }
 
 void Arvore::desenha(){

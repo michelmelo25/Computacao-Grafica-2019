@@ -3,6 +3,7 @@
 Loja::Loja()
 {
     porta = new Porta_Loja();
+    nome = "Loja";
 }
 
 void Loja::desenha(){

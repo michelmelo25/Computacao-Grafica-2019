@@ -59,19 +59,28 @@ void desenha() {
     GUI::displayEnd();
 }
 
-//Merda da gravacao nao funciona
+
 void gravar(){
     ofstream arquivo;
-    arquivo.open("cenatio.txt", ios::app);
+    arquivo.open("../Trabalho1/cenatio.txt", ios::app);
+    arquivo.clear();
     if(!arquivo.is_open()){
         cout << "Arquivo nao foi possicel ser aberto" << endl;
     }else{
         for(int i = 0; i < objetos.size(); i++){
-            string tx = "tr ";
-            arquivo<<"Puta que Paria";
-
-
-            cout << objetos[i]->t.x << endl;
+            arquivo << objetos[i]->nome << " ";
+            arquivo<<objetos[i]->t.x << " ";
+            arquivo<<objetos[i]->t.y << " ";
+            arquivo<<objetos[i]->t.z << " ";
+            arquivo<<objetos[i]->a.x << " ";
+            arquivo<<objetos[i]->a.y << " ";
+            arquivo<<objetos[i]->a.z << " ";
+            arquivo<<objetos[i]->s.x << " ";
+            arquivo<<objetos[i]->s.y << " ";
+            arquivo<<objetos[i]->s.z << " ";
+            arquivo<<objetos[i]->selecionado << " ";
+            arquivo<<objetos[i]->origem << endl;
+//            arquivo<<objetos[i]->malha << endl;
         }
     }
 

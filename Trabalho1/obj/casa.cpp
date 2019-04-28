@@ -6,6 +6,7 @@ Casa::Casa()
 {
     porta = new Porta();
     janela = new Janela_Frontal();
+    nome = "Casa";
 }
 
 void Casa::desenha()

@@ -2,6 +2,7 @@
 
 Janela_Frontal::Janela_Frontal(){
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Window N211013.3DS");
+    nome = "Janela_frintal";
 }
 
 void Janela_Frontal::desenha(){

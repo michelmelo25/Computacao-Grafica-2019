@@ -3,6 +3,7 @@
 Janela_predio::Janela_predio()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Window N211013.3DS");
+    nome = "Janela_predio";
 }
 
 void Janela_predio::desenha(){

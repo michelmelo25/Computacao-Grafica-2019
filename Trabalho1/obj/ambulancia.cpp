@@ -1,9 +1,11 @@
 #include "ambulancia.h"
 #include "objeto.h"
+#include <fstream>
 
 Ambulancia::Ambulancia()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Car Ambulance N160614.3ds");
+    nome = "Ambulancia";
 }
 
 void Ambulancia::desenha(){
@@ -22,3 +24,4 @@ void Ambulancia::desenha(){
         malha->draw();
     glPopMatrix();
 }
+

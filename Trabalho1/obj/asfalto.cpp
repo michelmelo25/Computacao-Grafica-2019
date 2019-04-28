@@ -3,7 +3,7 @@
 
 Asfalto::Asfalto()
 {
-
+    nome = "Asfalto";
 }
 
 void Asfalto::desenha(){

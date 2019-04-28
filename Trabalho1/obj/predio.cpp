@@ -1,9 +1,11 @@
 #include "predio.h"
+#include <fstream>
 
 Predio::Predio()
 {
     janela = new Janela_predio();
     porta = new Porta_predio();
+    nome = "Predio";
 }
 
 void Predio::desenha(){

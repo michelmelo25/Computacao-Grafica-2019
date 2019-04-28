@@ -9,6 +9,7 @@ class Predio: public Objeto
 public:
     Predio();
     void desenha();
+    void salvar();
 private:
     Janela_predio * janela;
     Porta_predio * porta;

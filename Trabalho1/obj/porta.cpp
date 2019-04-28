@@ -3,6 +3,7 @@
 Porta::Porta()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Door 1.3ds");
+    nome = "Porta";
 }
 
 

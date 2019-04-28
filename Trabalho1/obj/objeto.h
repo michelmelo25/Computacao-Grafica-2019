@@ -12,7 +12,7 @@ public:
 
     bool selecionado = false;
     bool origem = false;
-
+    string nome;
     Model3DS* malha;
 public:
     Objeto();

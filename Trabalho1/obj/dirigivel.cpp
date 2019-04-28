@@ -3,6 +3,7 @@
 Dirigivel::Dirigivel()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Dirigible N220509.3DS");
+    nome = "Dirirgivel";
 }
 
 void Dirigivel::desenha(){

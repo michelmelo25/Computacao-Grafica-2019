@@ -3,6 +3,7 @@
 Porta_predio::Porta_predio()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Door N270410.3DS");
+    nome = "Porta_predio";
 }
 
 void Porta_predio::desenha(){

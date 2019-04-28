@@ -3,6 +3,7 @@
 Porta_Loja::Porta_Loja()
 {
     malha = new Model3DS("/home/michel/Documentos/Computacao-Grafica-2019/Trabalho1/3ds/Door stefano galli N011112.3ds");
+    nome = "Porta_loja";
 }
 
 void Porta_Loja::desenha(){
