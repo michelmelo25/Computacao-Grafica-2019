@@ -11,6 +11,7 @@ public:
     Vetor3D s = Vetor3D(1,1,1);
 
     bool selecionado = false;
+    bool origem = false;
 
     Model3DS* malha;
 public:

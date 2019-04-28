@@ -221,22 +221,22 @@ void glutGUI::defaultKey(unsigned char key, int x, int y)
         posCam = (posCam+1)%6;
         delete cam;
         switch (posCam) {
-        case 0:
+        case 0: //Frente ao eixo z
             cam = new CameraDistante(savedCamera[0],savedCamera[1],savedCamera[2],savedCamera[3],savedCamera[4],savedCamera[5],savedCamera[6],savedCamera[7],savedCamera[8]);
             break;
-        case 1:
+        case 1: //Frente ao eixo x
             cam = new CameraDistante(); //CameraDistante(0,1,5, 0,1,0, 0,1,0);
             break;
-        case 2:
+        case 2: // Tras do eixo z
             cam = new CameraDistante(5,1,0, 0,1,0, 0,1,0);
             break;
-        case 3:
+        case 3: // tras do eixo x
             cam = new CameraDistante(0,1,-5, 0,1,0, 0,1,0);
             break;
-        case 4:
+        case 4: // fente ao eixo y
             cam = new CameraDistante(-5,1,0, 0,1,0, 0,1,0);
             break;
-        case 5:
+        case 5: //Camera distante
             cam = new CameraDistante(0,6,0, 0,1,0, 0,0,-1);
             break;
         }

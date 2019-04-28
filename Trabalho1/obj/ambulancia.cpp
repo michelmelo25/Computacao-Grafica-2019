@@ -18,6 +18,7 @@ void Ambulancia::desenha(){
         glRotatef(-90,1,0,0);
         //X,Z,Y -> Global
         glScalef(0.0055,0.006,0.004);
+        glColor3f(1,0,0);
         malha->draw();
     glPopMatrix();
 }

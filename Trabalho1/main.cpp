@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 
 using namespace std;
 
@@ -28,6 +29,7 @@ void desenha() {
     //GUI::setLight(3,-5,3,5,true,false);
 
     GUI::drawOrigin(1);
+    GUI::setColor(0,0,0);
     Desenha::drawGrid(10,0,7,1);
     GUI::setColor(1,0,0);
     GUI::drawFloor(20,14);
@@ -57,6 +59,33 @@ void desenha() {
     GUI::displayEnd();
 }
 
+//Merda da gravacao nao funciona
+void gravar(){
+    ofstream arquivo;
+    arquivo.open("cenatio.txt", ios::app);
+    if(!arquivo.is_open()){
+        cout << "Arquivo nao foi possicel ser aberto" << endl;
+    }else{
+        for(int i = 0; i < objetos.size(); i++){
+            string tx = "tr ";
+            arquivo<<"Puta que Paria";
+
+
+            cout << objetos[i]->t.x << endl;
+        }
+    }
+
+    arquivo.close();
+}
+
+void desenhaOrigem(){
+    for(int i = 0; i < objetos.size(); i++){
+        if(objetos[i]->selecionado){
+            objetos[i]->origem = !objetos[i]->origem;
+        }
+     }
+}
+
 bool incluirObjeto = false;
 
 void teclado(unsigned char key, int x, int y) {
@@ -67,6 +96,11 @@ void teclado(unsigned char key, int x, int y) {
     switch (key) {
     case 't':
         glutGUI::trans_obj = !glutGUI::trans_obj;
+        break;
+    case 'w':
+        if(!incluirObjeto){
+            gravar();
+        }
         break;
     case 'l':
         if(!incluirObjeto){
@@ -103,6 +137,13 @@ void teclado(unsigned char key, int x, int y) {
     case 'O':
         incluirObjeto = !incluirObjeto;
         break;
+    case 'r':
+        if(incluirObjeto){
+
+        }else{
+            desenhaOrigem();
+        }
+        break;
     case 'p':
         if (incluirObjeto) {
             objetos.push_back( new Predio());
@@ -111,6 +152,11 @@ void teclado(unsigned char key, int x, int y) {
     case 'u':
         if (incluirObjeto) {
             objetos.push_back( new Asfalto() );
+        }
+        break;
+    case 'D':
+        if (!incluirObjeto) {
+            objetos.pop_back();
         }
         break;
     case 'd':
@@ -171,9 +217,14 @@ int main()
     cout << "l - Loja" << endl;
     cout << "Comandos com inclusao de obj desativada" << endl;
     cout << "d - deleta objeto selecionado" << endl;
+    cout << "D - deleta o ultimo objeto do vetor" << endl;
     cout << "n - Seleciona obj seguinte" << endl;
-    cout << "b - seleciona obj a"
-            "nterior" << endl;
+    cout << "b - seleciona obj anterior" << endl;
+    cout << "r - desenha/apaga sistama de coordenadas local" << endl;
+    cout << "Comendos padrao" << endl;
+    cout << "X/x rotaciona o cenario no eixo x (Global)" << endl;
+    cout << "Y/y rotaciona o cenario no eixo y (Global)" << endl;
+    cout << "Z/z zoom in e out" << endl;
 
     GUI gui = GUI(800,600,desenha,teclado);
 }
