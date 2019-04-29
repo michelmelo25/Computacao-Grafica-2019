@@ -22,3 +22,17 @@ void Caminhao::desenha(){
         malha->draw();
     glPopMatrix();
 }
+
+void Caminhao::carregar(GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool isselecionado, bool eixo){
+    t.x = tx;
+    t.y = ty;
+    t.z = tz;
+    a.x = ax;
+    a.y = ay;
+    a.z = az;
+    s.x = sx;
+    s.y = sy;
+    s.z = sz;
+    selecionado = isselecionado;
+    origem = eixo;
+}
