@@ -17,7 +17,7 @@ using namespace std;
 #include <caminhao.h>
 #include <dirigivel.h>
 
-
+vector<string> nomesObj;
 vector<Objeto*> objetos;
 int posSelecionado = -1;
 
@@ -59,6 +59,53 @@ void desenha() {
     GUI::displayEnd();
 }
 
+void iniciarVectror(){
+    nomesObj.push_back("Predio");
+    nomesObj.push_back("Casa");
+    nomesObj.push_back("Asfalto");
+    nomesObj.push_back("Caminhao");
+    nomesObj.push_back("Dirigivel");
+    nomesObj.push_back("Loja");
+    nomesObj.push_back("Arvore");
+    nomesObj.push_back("Ambulancia");
+}
+
+void gerarObj(string nome, GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool selecionado, bool eixo){
+        if(nome == "Predio"){
+            objetos.push_back(new Predio());
+            objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             cout << "Predio carregado" << endl;
+        }else if(nome == "Ambulancia"){
+            Ambulancia *a = new Ambulancia();
+            a->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+            objetos.push_back(a);
+            cout << "Ambulancia carregada" << endl;
+            a->~Ambulancia();
+        }
+}
+
+void carregar(){
+    ifstream arquivo;
+    arquivo.open("../Trabalho1/cenatio.txt", ios::app);
+    if(arquivo.is_open()){
+        while (!arquivo.eof()) {
+            string nome;
+            GLfloat tx, ty, tz;
+            GLfloat ax, ay, az;
+            GLfloat sx, sy, sz;
+            bool selecionado, eixo;
+            arquivo >> nome;
+            arquivo >> tx >> ty >> tz;
+            arquivo >> ax >> ay >> az;
+            arquivo >> sx >> sy >> sz;
+            arquivo >> selecionado >> eixo;
+//            cout << nome << " " << tx << endl;
+            gerarObj(nome,tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+        }
+    }else{
+        cout << "Arquivo nao foi possicel ser aberto" << endl;
+    }
+}
 
 void gravar(){
     ofstream arquivo;
@@ -109,6 +156,12 @@ void teclado(unsigned char key, int x, int y) {
     case 'w':
         if(!incluirObjeto){
             gravar();
+        }
+        break;
+    case 'W':
+        if(!incluirObjeto){
+            cout << "list size " << objetos.size() << endl;
+            carregar();
         }
         break;
     case 'l':
@@ -234,6 +287,6 @@ int main()
     cout << "X/x rotaciona o cenario no eixo x (Global)" << endl;
     cout << "Y/y rotaciona o cenario no eixo y (Global)" << endl;
     cout << "Z/z zoom in e out" << endl;
-
+    iniciarVectror();
     GUI gui = GUI(800,600,desenha,teclado);
 }

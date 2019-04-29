@@ -69,3 +69,25 @@ void Predio::desenha(){
         porta->desenha();
     glPopMatrix();
 }
+
+void Predio::carregar(GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool isselecionado, bool eixo){
+   glPushMatrix();
+//       glTranslatef(tx,ty,tz);
+//       glRotatef(az,0,0,1);
+//       glRotatef(ay,0,1,0);
+//       glRotatef(ax,1,0,0);
+//       glScalef(sx,sy,sz);
+//   glPopMatrix();
+
+        t.x = tx;
+    t.y = ty;
+    t.z = tz;
+    a.x = ax;
+    a.y = ay;
+    a.z = az;
+    s.x = sx;
+    s.y = sy;
+    s.z = sz;
+    selecionado = isselecionado;
+    origem = eixo;
+}

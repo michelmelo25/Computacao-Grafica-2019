@@ -16,3 +16,7 @@ void Objeto::desenha()
     }
     glScalef(s.x,s.y,s.z);
 }
+
+void Objeto::carregar(GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool isselecionado, bool eixo){
+
+}
