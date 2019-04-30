@@ -73,35 +73,35 @@ void iniciarVectror(){
 void gerarObj(string nome, GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool selecionado, bool eixo){
         if(nome == "Predio"){
             objetos.push_back(new Predio());
-            objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+            objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
              cout << "Predio carregado" << endl;
         }else if(nome == "Ambulancia"){
             objetos.push_back(new Ambulancia());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Ambulancia carregada" << endl;
         }else if(nome == "Casa"){
             objetos.push_back(new Casa());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Casa carregada" << endl;
         }else if(nome == "Asfalto"){
             objetos.push_back(new Asfalto());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Asfalto carregado" << endl;
         }else if(nome == "Caminhao"){
             objetos.push_back(new Caminhao());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Caminhao carregado" << endl;
         }else if(nome == "Dirigivel"){
             objetos.push_back(new Dirigivel());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Dirigivel carregado" << endl;
         }else if(nome == "Loja"){
             objetos.push_back(new Loja());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Loja carregada" << endl;
         }else if(nome == "Arvore"){
             objetos.push_back(new Arvore());
-             objetos.back()->carregar(tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
             cout << "Arvore carregada" << endl;
         }
 }
@@ -122,7 +122,7 @@ void carregar(){
             arquivo >> sx >> sy >> sz;
             arquivo >> selecionado >> eixo;
             cout << nome << endl;
-            gerarObj(nome,tx,ty,tx,ax,ay,az,sx,sy,sz,selecionado,eixo);
+            gerarObj(nome,tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
         }
     }else{
         cout << "Arquivo nao foi possicel ser aberto" << endl;
