@@ -22,6 +22,7 @@ vector<Objeto*> objetos;
 vector<Camera*> cameras;
 int posSelecionado = -1;
 int marcaCamera = -1;
+//int up[] = [0,1,0];
 
 void desenha() {
     GUI::displayInit();
@@ -61,56 +62,58 @@ void desenha() {
     GUI::displayEnd();
 }
 
-void iniciarVectror(){
-    nomesObj.push_back("Predio");
-    nomesObj.push_back("Casa");
-    nomesObj.push_back("Asfalto");
-    nomesObj.push_back("Caminhao");
-    nomesObj.push_back("Dirigivel");
-    nomesObj.push_back("Loja");
-    nomesObj.push_back("Arvore");
-    nomesObj.push_back("Ambulancia");
-}
-
 void gerarObj(string nome, GLfloat tx,GLfloat ty,GLfloat tz,GLfloat ax,GLfloat ay,GLfloat az,GLfloat sx,GLfloat sy,GLfloat sz,bool selecionado, bool eixo){
         if(nome == "Predio"){
             objetos.push_back(new Predio());
             objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+            if(selecionado) posSelecionado = objetos.size()-1;
              cout << "Predio carregado" << endl;
         }else if(nome == "Ambulancia"){
             objetos.push_back(new Ambulancia());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Ambulancia carregada" << endl;
         }else if(nome == "Casa"){
             objetos.push_back(new Casa());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Casa carregada" << endl;
         }else if(nome == "Asfalto"){
             objetos.push_back(new Asfalto());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Asfalto carregado" << endl;
         }else if(nome == "Caminhao"){
             objetos.push_back(new Caminhao());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Caminhao carregado" << endl;
         }else if(nome == "Dirigivel"){
             objetos.push_back(new Dirigivel());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Dirigivel carregado" << endl;
         }else if(nome == "Loja"){
             objetos.push_back(new Loja());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Loja carregada" << endl;
         }else if(nome == "Arvore"){
             objetos.push_back(new Arvore());
              objetos.back()->carregar(tx,ty,tz,ax,ay,az,sx,sy,sz,selecionado,eixo);
+             if(selecionado) posSelecionado = objetos.size()-1;
             cout << "Arvore carregada" << endl;
         }
 }
 
-void carregar(){
+void carregar(int a){
     ifstream arquivo;
-    arquivo.open("../Trabalho1/cenatio.txt", ios::app);
+    if(a == 0){
+        arquivo.open("../Trabalho1/cenatio.txt", ios::app);
+    }else if(a == 1){
+        arquivo.open("../Trabalho1/cenatio1.txt", ios::app);
+    }
+
     if(arquivo.is_open()){
         while (!arquivo.eof()) {
             string nome = "";
@@ -185,7 +188,7 @@ void teclado(unsigned char key, int x, int y) {
     case 'W':
         if(!incluirObjeto){
             cout << "list size " << objetos.size() << endl;
-            carregar();
+            carregar(0);
         }
         break;
     case 'l':
@@ -245,6 +248,11 @@ void teclado(unsigned char key, int x, int y) {
             objetos.push_back( new Asfalto() );
         }
         break;
+    case 'k':
+        if (!incluirObjeto) {
+            carregar(1);
+        }
+        break;
     case 'D':
         if (!incluirObjeto) {
             objetos.pop_back();
@@ -288,6 +296,15 @@ void teclado(unsigned char key, int x, int y) {
             objetos.push_back( new Caminhao());
         }
         break;
+    case 's':
+        if (!incluirObjeto) {
+            for (int i = 0; i < objetos.size(); ++i) {
+                if(objetos[i]->selecionado){
+                    glutGUI::cam = new CameraDistante(objetos[i]->t.x+4,8,objetos[i]->t.z+5,objetos[i]->t.x,objetos[i]->t.y,objetos[i]->t.z,0,1,0);
+                }
+            }
+        }
+        break;
     case 'h':
         if (!incluirObjeto) {
             marcaCamera++;
@@ -305,6 +322,7 @@ void teclado(unsigned char key, int x, int y) {
 
 int main()
 {
+    //Olho, Centro e Up
     cameras.push_back(new CameraDistante(0,10,-4.7,0,0,0,0,1,0));
     cameras.push_back(new CameraDistante(4.7,10,0,0,0,0,0,1,0));
     cameras.push_back(new CameraDistante(15,5,15,0,0,0,0,1,0));
@@ -326,6 +344,9 @@ int main()
     cout << "n - Seleciona obj seguinte" << endl;
     cout << "b - seleciona obj anterior" << endl;
     cout << "r - desenha/apaga sistama de coordenadas local" << endl;
+    cout << "h - alterna entre cameras pre definidas" << endl;
+    cout << "s - alterna para camera focada no obj selecionado" << endl;
+    cout << "k - carrega cenario pre definido" << endl;
     cout << "Comendos padrao" << endl;
     cout << "X/x rotaciona o cenario no eixo x (Global)" << endl;
     cout << "Y/y rotaciona o cenario no eixo y (Global)" << endl;
