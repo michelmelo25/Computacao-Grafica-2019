@@ -19,7 +19,9 @@ using namespace std;
 
 vector<string> nomesObj;
 vector<Objeto*> objetos;
+vector<Camera*> cameras;
 int posSelecionado = -1;
+int marcaCamera = -1;
 
 void desenha() {
     GUI::displayInit();
@@ -220,6 +222,11 @@ void teclado(unsigned char key, int x, int y) {
 
     case 'O':
         incluirObjeto = !incluirObjeto;
+        if(incluirObjeto){
+            cout << "Inclusao de Objeto ativa" << endl;
+        }else{
+            cout << "Inclusao de Objeto desativada" << endl;
+        }
         break;
     case 'r':
         if(incluirObjeto){
@@ -281,6 +288,15 @@ void teclado(unsigned char key, int x, int y) {
             objetos.push_back( new Caminhao());
         }
         break;
+    case 'h':
+        if (!incluirObjeto) {
+            marcaCamera++;
+            if(marcaCamera>=cameras.size()){
+                marcaCamera=0;
+            }
+            glutGUI::cam = new CameraDistante(cameras[marcaCamera]->e,cameras[marcaCamera]->c,cameras[marcaCamera]->u);
+        }
+        break;
 
     default:
         break;
@@ -289,6 +305,11 @@ void teclado(unsigned char key, int x, int y) {
 
 int main()
 {
+    cameras.push_back(new CameraDistante(0,10,-4.7,0,0,0,0,1,0));
+    cameras.push_back(new CameraDistante(4.7,10,0,0,0,0,0,1,0));
+    cameras.push_back(new CameraDistante(15,5,15,0,0,0,0,1,0));
+    cameras.push_back(new CameraDistante(-15,5,-15,0,0,0,0,1,0));
+
     cout << "Mapa do Teclado" << endl;
     cout << "Comandos de inclusao de objs" << endl;
     cout << "c - Casa" << endl;
