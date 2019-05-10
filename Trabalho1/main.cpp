@@ -154,7 +154,6 @@ void gravar(){
             arquivo<<objetos[i]->s.z << " ";
             arquivo<<objetos[i]->selecionado << " ";
             arquivo<<objetos[i]->origem << endl;
-//            arquivo<<objetos[i]->malha << endl;
         }
     }
 
@@ -347,10 +346,11 @@ int main()
     cout << "h - alterna entre cameras pre definidas" << endl;
     cout << "s - alterna para camera focada no obj selecionado" << endl;
     cout << "k - carrega cenario pre definido" << endl;
+    cout << "w - grava cenario modelado em tela" << endl;
+    cout << "W - carrega cenario salvo perlo usuario" << endl;
     cout << "Comendos padrao" << endl;
     cout << "X/x rotaciona o cenario no eixo x (Global)" << endl;
     cout << "Y/y rotaciona o cenario no eixo y (Global)" << endl;
     cout << "Z/z zoom in e out" << endl;
-    iniciarVectror();
     GUI gui = GUI(800,600,desenha,teclado);
 }
