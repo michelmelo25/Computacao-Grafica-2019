@@ -29,6 +29,44 @@ static bool trans_obj = false;
 
 using namespace std;
 
+void desenha() {
+    GUI::displayInit();
+
+    GUI::setLight(1,1,3,5,true,false);
+    GUI::setLight(2,-1.5,0.5,-1,true,false);
+    //GUI::setLight(3,-5,3,5,true,false);
+
+    GUI::drawOrigin(1);
+    GUI::setColor(0,0,0);
+    Desenha::drawGrid(10,0,7,1);
+    GUI::setColor(1,0,0);
+    GUI::drawFloor(20,14);
+    for (int i = 0; i < pontos.size(); ++i) {
+        glPushMatrix();
+            pontos[i]->desenha();
+        glPopMatrix();
+    }
+
+    if (posSelecionado >= 0 and posSelecionado < pontos.size()) {
+        pontos[posSelecionado]->t.x += glutGUI::dtx;
+        pontos[posSelecionado]->t.y += glutGUI::dty;
+        pontos[posSelecionado]->t.z += glutGUI::dtz;
+
+        pontos[posSelecionado]->a.x += glutGUI::dax;
+        pontos[posSelecionado]->a.y += glutGUI::day;
+        pontos[posSelecionado]->a.z += glutGUI::daz;
+
+        pontos[posSelecionado]->s.x += glutGUI::dsx;
+        pontos[posSelecionado]->s.y += glutGUI::dsy;
+        pontos[posSelecionado]->s.z += glutGUI::dsz;
+    }
+    glutGUI::dtx = 0.0; glutGUI::dty = 0.0; glutGUI::dtz = 0.0;
+    glutGUI::dax = 0.0; glutGUI::day = 0.0; glutGUI::daz = 0.0;
+    glutGUI::dsx = 0.0; glutGUI::dsy = 0.0; glutGUI::dsz = 0.0;
+
+    GUI::displayEnd();
+}
+
 static void key(unsigned char key, int x, int y)
 {
     switch (key){
