@@ -1,4 +1,5 @@
 #include "curva.h"
+#include "gui.h"
 
 Curva::Curva()
 {
@@ -52,12 +53,12 @@ void desenhaTrechoTrilho(){
          glColor3f(0.1f, 0.0f, 0.0f);
          glBegin(GL_QUADS);
            glVertex3f(  0, 0, -0.5);
-           glVertex3f(-.2, 0,  -.5);
-           glVertex3f(-.2, 0,   .5);
+           glVertex3f(-.3, 0,  -.5);
+           glVertex3f(-.3, 0,   .5);
            glVertex3f(  0, 0,   .5);
            glVertex3f(  0, 0,   .5);
-           glVertex3f(-.2, 0,   .5);
-           glVertex3f(-.2, 0,  -.5);
+           glVertex3f(-.3, 0,   .5);
+           glVertex3f(-.3, 0,  -.5);
            glVertex3f(  0, 0, -0.5);
          glEnd();
          glColor3f(0.1f, 0.1f, 0.1f);
@@ -160,12 +161,17 @@ void Curva::desenhaTrilho(){
     }
 }
 
+int Curva::getTipo(){
+    return this->tipo;
+}
+
 
 void Curva::setTipo(int tipo){
 
     switch (tipo) {
 
         case 1:{ //Interpoladora
+            this->tipo = tipo;
             float Mi[4][4] = {
                 {-4.5,  13.5, -13.5,  4.5},
                 {   9, -22.5,    18, -4.5},
@@ -182,6 +188,7 @@ void Curva::setTipo(int tipo){
         }
 
         case 2:{ //Bezier
+            this->tipo = tipo;
             float Mb[4][4] = {
                 {-1,  3, -3,  1},
                 { 3, -6,  3,  0},
@@ -199,6 +206,7 @@ void Curva::setTipo(int tipo){
         }
 
         case 3:{ //Hermite
+            this->tipo = tipo;
             float Mh[4][4] = {
                 { 2, -2,  1,  1},
                 {-3,  3, -2, -1},
@@ -214,6 +222,7 @@ void Curva::setTipo(int tipo){
         }
 
         case 4: { //Catmull-Rom
+            this->tipo = tipo;
             float Mcm[4][4] = {
                 {-0.5,  1.5, -1.5,  0.5},
                 {   1, -2.5,    2, -0.5},
@@ -231,7 +240,7 @@ void Curva::setTipo(int tipo){
         }
 
         case 5:{ //B-Spline
-
+            this->tipo = tipo;
             float Mbs[4][4] = {
                 {-1/6.0,  3/6.0, -3/6.0, 1/6.0},
                 { 3/6.0, -6/6.0,  3/6.0, 0/6.0},

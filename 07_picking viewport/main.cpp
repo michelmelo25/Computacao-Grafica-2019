@@ -29,7 +29,6 @@ int height = 600;
 
 
 //-------------------picking------------------
-vector<Vetor3D> pontosControle;
 
 int pontoSelecionado = 0; //names = [1,n] //n = pontosControle.size()
 //bool transPontos = glutGUI::trans_obj; //= true;
@@ -72,6 +71,28 @@ int picking( GLint cursorX, GLint cursorY, int w, int h ) {
 }
 //-------------------picking------------------
 
+void inserePontoControle(){
+    ponto * p = new ponto();
+    p->tx = 1; p->ty = 1; p->tz = 1;
+    pontos.push_back(p);
+}
+
+void removePontoControle(){
+    if(pontos.size() > 0){
+        pontos.pop_back();
+    }
+
+}
+
+void removePontoControleSelecionado(){
+    if(pontos.size() > 0 && pontoSelecionado >= 0){
+        pontos.erase(pontos.begin()+pontoSelecionado-1);
+        pontoSelecionado = -1;
+    }
+
+}
+
+
 //-------------------viewPorts------------------
 bool viewports = false;
 bool scissored = false;
@@ -102,6 +123,19 @@ void viewPorts() {
         Vetor3D center = pontos[2]->getCoordenadas();
         gluLookAt(eye.x,eye.y,eye.z, center.x,center.y,center.z, 0.0,1.0,0.0);
             cenario();
+
+    // GoPro
+    if (!scissored) {
+         //misturando com a principal
+         glViewport(width - (width/4.0), height - (height / 4.0), width/4.0, height/4.0);
+     } else {
+         //recortando/substituindo o pedaço
+         GUI::glScissoredViewport(width - (width/4.0), height - (height / 4.0), width/4.0, height/4.0);
+     }
+        glViewport(width - (width/4.0), height - (height / 4.0), width/4.0, height/4.0);
+        glLoadIdentity();
+        gluLookAt(goPro->e.x,goPro->e.y,goPro->e.z,goPro->c.x,goPro->c.y,goPro->c.z, goPro->u.x,goPro->u.y,goPro->u.z);
+        cenario();
 
 
 }
@@ -208,12 +242,45 @@ void teclado(unsigned char key, int x, int y) {
         glutGUI::trans_luz = !glutGUI::trans_luz;
         break;
 
-    case 102://Progressão com o objeto
-        delta += 0.01;
+    case 'f'://Progressão com o objeto
+        if(spline->getTipo() == 5){
+            if(delta > 8.85){
+                delta = 0.01;
+            }else{
+               delta += 0.01;
+            }
+        }else{
+            if(delta >= 1){
+                delta = 0.01;
+            }else{
+               delta += 0.01;
+            }
+        }
         break;
 
-    case 100://Progressão com o objeto
-        delta -= 0.01;
+    case 'd'://Regressão com o objeto
+        if(spline->getTipo() == 5){
+            if(delta <= 0){
+                delta = 8.85;
+            }else{
+               delta -= 0.01;
+            }
+        }else{
+            if(delta <= 0){
+                delta = 0.99;
+            }else{
+               delta -= 0.01;
+            }
+        }
+        break;
+    case 'u':
+        inserePontoControle();
+        break;
+    case 'i':
+        removePontoControle();
+        break;
+    case 'k':
+        removePontoControleSelecionado();
         break;
 
     case 'v':
@@ -269,6 +336,7 @@ void teclado(unsigned char key, int x, int y) {
                 pronto.clear();
 
                 spline->setTipo(1);
+                delta = 0.01;
                 glutSetWindowTitle("Interpoladora");
                 break;
                 }
@@ -297,6 +365,7 @@ void teclado(unsigned char key, int x, int y) {
                 pronto.clear();
 
                 spline->setTipo(2);
+                delta = 0.01;
                 glutSetWindowTitle("Bezier");
                 break;
                 }
@@ -310,7 +379,7 @@ void teclado(unsigned char key, int x, int y) {
                 p->tx = -5; p->ty = 1; p->tz = 0;
                 pronto.push_back(p);
                 p = new ponto;
-                p->tx = 0; p->ty = 5; p->tz = 0;
+                p->tx = 0; p->ty = 1; p->tz = 0;
                 pronto.push_back(p);
                 p = new ponto;
                 p->tx = 5; p->ty = 10; p->tz = 0;
@@ -325,6 +394,7 @@ void teclado(unsigned char key, int x, int y) {
                 pronto.clear();
 
                 spline->setTipo(3);
+                delta = 0.01;
                 glutSetWindowTitle("Hermite");
                 break;
                 }
@@ -376,6 +446,7 @@ void teclado(unsigned char key, int x, int y) {
                 pronto.clear();
 
                 spline->setTipo(4);
+                delta = 0.01;
                 glutSetWindowTitle("Catmull-Rom");
                 break;
                 }
@@ -427,6 +498,7 @@ void teclado(unsigned char key, int x, int y) {
                 pronto.clear();
 
                 spline->setTipo(5);
+                delta = 0.01;
                 glutSetWindowTitle("B-Spline");
                 break;
                 }

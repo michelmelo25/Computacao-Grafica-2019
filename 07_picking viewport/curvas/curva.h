@@ -20,6 +20,7 @@ public:
     vector<Vetor3D> Pn;
     Vetor3D * P;
     float delta = .01;
+    int tipo;
 
     Curva();
 
@@ -29,6 +30,7 @@ public:
     Vetor3D d2(float u);
     void desenhaTrilho();
     void setTipo(int tipo);
+    int getTipo();
 };
 
 #endif // CURVA_H
