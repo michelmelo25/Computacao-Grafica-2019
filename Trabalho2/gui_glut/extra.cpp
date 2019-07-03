@@ -5,6 +5,8 @@ int glutGUI::height = 300;
 
 bool glutGUI::perspective = true;
 
+bool glutGUI::picking = false;
+
 bool glutGUI::lbpressed = false;
 bool glutGUI::mbpressed = false;
 bool glutGUI::rbpressed = false;
@@ -221,22 +223,22 @@ void glutGUI::defaultKey(unsigned char key, int x, int y)
         posCam = (posCam+1)%6;
         delete cam;
         switch (posCam) {
-        case 0: //Frente ao eixo z
+        case 0:
             cam = new CameraDistante(savedCamera[0],savedCamera[1],savedCamera[2],savedCamera[3],savedCamera[4],savedCamera[5],savedCamera[6],savedCamera[7],savedCamera[8]);
             break;
-        case 1: //Frente ao eixo x
+        case 1:
             cam = new CameraDistante(); //CameraDistante(0,1,5, 0,1,0, 0,1,0);
             break;
-        case 2: // Tras do eixo z
+        case 2:
             cam = new CameraDistante(5,1,0, 0,1,0, 0,1,0);
             break;
-        case 3: // tras do eixo x
+        case 3:
             cam = new CameraDistante(0,1,-5, 0,1,0, 0,1,0);
             break;
-        case 4: // fente ao eixo y
+        case 4:
             cam = new CameraDistante(-5,1,0, 0,1,0, 0,1,0);
             break;
-        case 5: //Camera distante
+        case 5:
             cam = new CameraDistante(0,6,0, 0,1,0, 0,0,-1);
             break;
         }
@@ -340,7 +342,7 @@ void glutGUI::idle()
     glutPostRedisplay();
 }
 
-void glutGUI::mouseButton(int button, int state, int x, int y) {
+void glutGUI::defaultMouseButton(int button, int state, int x, int y) {
     dtx = 0.0; dty = 0.0; dtz = 0.0;
     dax = 0.0; day = 0.0; daz = 0.0;
     dsx = 0.0; dsy = 0.0; dsz = 0.0;

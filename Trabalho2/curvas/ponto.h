@@ -1,13 +1,18 @@
 #ifndef PONTO_H
 #define PONTO_H
-#include <objeto.h>
-#include <Vetor3D.h>
+#include <bib/Vetor3D.h>
 #include <GL/glut.h>
+#include <bib/objeto.h>
 
-class Ponto: public Objeto
+class ponto: public Objeto
 {
 public:
-    Ponto();
+    float tx = 0.0;
+    float ty = 0.0; // coordenadas Translação
+    float tz = 0.0;
+
+    ponto();
+
     void desenha();
     Vetor3D getCoordenadas();
 };

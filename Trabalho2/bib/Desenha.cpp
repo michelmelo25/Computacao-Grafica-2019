@@ -244,7 +244,7 @@ void Desenha::drawEixos(GLfloat tam) {
   //x
     glMaterialfv(GL_FRONT, GL_AMBIENT, redMaterial);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, redMaterial);
-    glColor3d(0.3,0.0,0.0);
+    //glColor3d(0.3,0.0,0.0);
 
   glBegin(GL_LINES);
     glVertex3f(0,0,0);
@@ -259,7 +259,7 @@ void Desenha::drawEixos(GLfloat tam) {
   //y
     glMaterialfv(GL_FRONT, GL_AMBIENT, greenMaterial);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, greenMaterial);
-    glColor3d(0.0,0.3,0.0);
+    //glColor3d(0.0,0.3,0.0);
 
   glBegin(GL_LINES);
     glVertex3f(0,0,0);
@@ -274,7 +274,7 @@ void Desenha::drawEixos(GLfloat tam) {
   //z
     glMaterialfv(GL_FRONT, GL_AMBIENT, blueMaterial);
     glMaterialfv(GL_FRONT, GL_DIFFUSE, blueMaterial);
-    glColor3d(0.0,0.0,0.3);
+    //glColor3d(0.0,0.0,0.3);
 
   glBegin(GL_LINES);
     glVertex3f(0,0,0);

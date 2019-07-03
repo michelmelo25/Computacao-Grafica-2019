@@ -1,11 +1,12 @@
 #include "gui.h"
 
-GUI::GUI(int width, int height, displayFunction dFunction, keyFunction kFunction, const char *title) {
+GUI::GUI(int width, int height, displayFunction dFunction, keyFunction kFunction, mouseButtonFunction mbFunction, const char *title) {
     wTitle = title;
     wWidth = width;
     wHeight = height;
     display = dFunction;
     key = kFunction;
+    mouseButton = mbFunction;
 
     GLUTInit();
 
@@ -28,13 +29,14 @@ void GUI::GLUTInit()
     glutDisplayFunc(display);
     glutKeyboardFunc(key);
     glutIdleFunc(glutGUI::idle);
-    glutMouseFunc(glutGUI::mouseButton);
+    glutMouseFunc(mouseButton);
     glutMotionFunc(glutGUI::mouseMove);
 }
 
 void GUI::GLInit()
 {
     glClearColor(0.6,0.6,0.0,1.0); //define a cor para limpar a imagem (cor de fundo)
+    //glClearColor(1.0,1.0,1.0,1.0); //define a cor para limpar a imagem (cor de fundo)
 
     glEnable(GL_LIGHTING); //habilita iluminacao (chamada no setLight)
     //glEnable(GL_COLOR_MATERIAL);
@@ -82,6 +84,12 @@ void GUI::setKey(keyFunction kFunction) {
     glutKeyboardFunc(key);
 }
 
+void GUI::setMouseButton(mouseButtonFunction mbFunction)
+{
+    mouseButton = mbFunction;
+    glutMouseFunc(mouseButton);
+}
+
 //using namespace glutGUI;
 
 void GUI::displayInit()
@@ -94,7 +102,14 @@ void GUI::displayInit()
     const float orthof = 0.003; //orthoFactor
 
     glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
+
+    if (!glutGUI::picking)
+        glLoadIdentity();
+    else {
+        //lembrar de nao inicializar a matriz de projecao,
+        //pois a gluPickMatrix é que redefine os planos de corte do volume de visualizacao reduzido
+        //(apenas na vizinhanca do pixel selecionado pelo mouse)
+    }
 
     if (glutGUI::perspective)
         gluPerspective(30.,ar,0.1,1000.);
@@ -120,6 +135,11 @@ void GUI::displayEnd()
 void GUI::keyInit(unsigned char key, int x, int y)
 {
     glutGUI::defaultKey(key,x,y);
+}
+
+void GUI::mouseButtonInit(int button, int state, int x, int y)
+{
+    glutGUI::defaultMouseButton(button,state,x,y);
 }
 
 void GUI::setLight(int id, float posx, float posy, float posz, bool onOffKeyDefault, bool attenuated, bool low, bool hidden, bool pontual, bool spot, bool onOffUserControl) {
@@ -297,6 +317,185 @@ void GUI::glReflectPlaneXYf()
                          };
     glMultTransposeMatrixd( transform );
 }
+
+//-------------------sombra-------------------
+//Create a matrix that will project the desired shadow
+//plano alinhado aos eixos principais
+void GUI::shadowMatrixYk(GLfloat shadowMat[4][4], GLfloat lightpos[4], GLfloat k)
+{
+    enum {X,Y,Z,W};
+
+    shadowMat[0][0] =  k*lightpos[W] - lightpos[Y];
+    shadowMat[0][1] =  lightpos[X];
+    shadowMat[0][2] =  0.0;
+    shadowMat[0][3] = -k*lightpos[X];
+
+    shadowMat[1][0] =  0.0;
+    shadowMat[1][1] =  k*lightpos[W];
+    shadowMat[1][2] =  0.0;
+    shadowMat[1][3] = -k*lightpos[Y];
+
+    shadowMat[2][0] =  0.0;
+    shadowMat[2][1] =  lightpos[Z];
+    shadowMat[2][2] =  k*lightpos[W] - lightpos[Y];
+    shadowMat[2][3] = -k*lightpos[Z];
+
+    shadowMat[3][0] =  0.0;
+    shadowMat[3][1] =  lightpos[W];
+    shadowMat[3][2] =  0.0;
+    shadowMat[3][3] = -lightpos[Y];
+
+    for (int i=0;i<4;i++)
+        for (int j=0;j<4;j++)
+            shadowMat[i][j] *= -1;
+}
+
+//Create a matrix that will project the desired shadow
+//plano arbitrario
+void GUI::shadowMatrix(GLfloat shadowMat[4][4], GLfloat groundplane[4], GLfloat lightpos[4])
+{
+    enum {X,Y,Z,W};
+    GLfloat dot;
+
+    /* Find dot product between light position vector and ground plane normal. */
+    dot = groundplane[X] * lightpos[X] +
+    groundplane[Y] * lightpos[Y] +
+    groundplane[Z] * lightpos[Z] +
+    groundplane[W] * lightpos[W];
+
+    shadowMat[0][0] = dot - lightpos[X] * groundplane[X];
+    shadowMat[0][1] = 0.f - lightpos[X] * groundplane[Y];
+    shadowMat[0][2] = 0.f - lightpos[X] * groundplane[Z];
+    shadowMat[0][3] = 0.f - lightpos[X] * groundplane[W];
+
+    shadowMat[1][0] = 0.f - lightpos[Y] * groundplane[X];
+    shadowMat[1][1] = dot - lightpos[Y] * groundplane[Y];
+    shadowMat[1][2] = 0.f - lightpos[Y] * groundplane[Z];
+    shadowMat[1][3] = 0.f - lightpos[Y] * groundplane[W];
+
+    shadowMat[2][0] = 0.f - lightpos[Z] * groundplane[X];
+    shadowMat[2][1] = 0.f - lightpos[Z] * groundplane[Y];
+    shadowMat[2][2] = dot - lightpos[Z] * groundplane[Z];
+    shadowMat[2][3] = 0.f - lightpos[Z] * groundplane[W];
+
+    shadowMat[3][0] = 0.f - lightpos[W] * groundplane[X];
+    shadowMat[3][1] = 0.f - lightpos[W] * groundplane[Y];
+    shadowMat[3][2] = 0.f - lightpos[W] * groundplane[Z];
+    shadowMat[3][3] = dot - lightpos[W] * groundplane[W];
+}
+//-------------------sombra-------------------
+
+//-------------------picking------------------
+//processa as intersecoes
+int GUI::processHits( GLint hits, GLuint buffer[] ) {
+  //for each hit in buffer
+    //Number of names in the name stack
+    //Minimum depth of the object
+    //Maximum depth of the object
+    //List of names of the name stack
+
+  int i;
+  GLuint names, *ptr, minZ,*ptrNames, numberOfNames;
+
+  ptrNames = NULL;
+
+  printf("Hits = %d\n",hits);
+  printf("Buffer = ");
+  for (i = 0; i < 4*hits; i++) {
+    printf("%u ",buffer[i]);
+  }
+  printf("\n");
+
+  ptr = (GLuint *) buffer;
+  minZ = 0xffffffff;
+  for (i = 0; i < hits; i++) {
+    names = *ptr;
+    //if (names == 3) {
+      ptr++;
+      //if ( (minZ==0xffffffff) || (*ptr < minZ && ( *(ptrNames+1)==*(ptr+3) ) ) || ( *(ptrNames+1)==0 && *(ptr+3)==1 ) ) {
+      if (*ptr < minZ) {
+          numberOfNames = names;
+          minZ = *ptr;
+          if (numberOfNames != 0)
+            ptrNames = ptr+2;
+      }
+    //}
+    ptr += names+2;
+  }
+
+  //ptr = ptrNames;
+  //for (j = 0; j < numberOfNames; j++,ptr++) {
+  //   printf ("%d ", *ptr);
+  //}
+
+  if (ptrNames == NULL)
+      return 0;
+  else
+      return *ptrNames;
+}
+
+void GUI::pickingInit(GLint cursorX, GLint cursorY, int w, int h, GLuint* selectBuf, int BUFSIZE)
+{
+    //glViewport(0, 3*glutGUI::height/4, glutGUI::width/4, glutGUI::height/4);
+    glViewport(0, 0, glutGUI::width, glutGUI::height);
+    GLint viewport[4];
+    glGetIntegerv(GL_VIEWPORT,viewport);
+
+    glInitNames();
+
+    glSelectBuffer(BUFSIZE,selectBuf);
+    glRenderMode(GL_SELECT);
+
+    glMatrixMode(GL_PROJECTION);
+    //glPushMatrix();
+    glLoadIdentity();
+
+    //redefinindo os planos de corte do volume de visualizacao reduzido (apenas na vizinhanca do pixel selecionado pelo mouse)
+    gluPickMatrix(cursorX,viewport[3]-cursorY,w,h,viewport);
+
+    glDisable(GL_LIGHTING);
+
+    glutGUI::picking = true;
+}
+
+int GUI::pickingClosestName(GLuint *selectBuf, int BUFSIZE)
+{
+    glutGUI::picking = false;
+
+    glEnable(GL_LIGHTING);
+
+    //processando as intersecoes
+        int hits;
+
+        // restoring the original projection matrix
+        //glMatrixMode(GL_PROJECTION);
+        //glPopMatrix();
+        //glMatrixMode(GL_MODELVIEW);
+        //glFlush();
+
+        // returning to normal rendering mode
+        hits = glRenderMode(GL_RENDER);
+
+        // if there are hits process them
+        if (hits != 0) {
+          return GUI::processHits(hits,selectBuf);
+        } else {
+          return 0;
+        }
+}
+//-------------------picking------------------
+
+//-------------------viewPorts------------------
+void GUI::glScissoredViewport(int x, int y, int width, int height)
+{
+    glScissor(x, y, width, height);
+    glEnable(GL_SCISSOR_TEST);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glDisable(GL_SCISSOR_TEST);
+
+    glViewport(x, y, width, height);
+}
+//-------------------viewPorts------------------
 
 void GUI::drawSphere(float x, float y, float z, float radius)
 {
